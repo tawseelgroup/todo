@@ -1,0 +1,84 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="my-3">
+  <form action="add" method="POST">
+    {% csrf_token %}
+    <input
+      type="text"
+      class="py-1 px-2 w-25"
+      placeholder="add Task"
+      name="task"
+      id="task"
+    />
+    {% comment %}
+    <button class="btn btn-success text-white rounded-0" type="submit">
+      Add
+    </button>
+    {% endcomment %}
+  </form>
+
+  <div>
+    <form action="update" method="post">
+      {% csrf_token %}
+      <ul id="taskList" class="w-75" style="margin-top: 10px">
+        {% for task in tasks %} {% if task.done %}
+
+        <li
+          class="d-flex gap-2 position-relative text-decoration-line-through text-secondary"
+          style="
+            height: 2.2rem;
+
+            padding: 20px -50px;
+          "
+        >
+          <input
+            type="checkbox"
+            name="taskupdate"
+            id="{{task.id}}"
+            onchange="update"
+            value="1"
+            disabled="true"
+            checked
+          />
+          <span style="line-height: 34px">{{ task.task }}</span>
+          <button
+            type="submit"
+            class="btn btn-sm rounded-0 btn-secondary position-absolute end-0"
+            disabled="true"
+          >
+            Done
+          </button>
+        </li>
+        {% else %}
+
+        <li
+          class="d-flex gap-2 position-relative"
+          style="
+            height: 2.2rem;
+
+            padding: 20px -50px;
+          "
+        >
+          <input
+            type="checkbox"
+            name="taskupdate"
+            id="{{task.id}}"
+            onchange="update"
+            value="{{task.id}}"
+          />
+          <span style="line-height: 34px">{{ task.task }}</span>
+          <button
+            type="submit"
+            style="padding: 3px 9px 3px 10px"
+            class="btn btn-sm rounded-0 btn-secondary position-absolute end-0"
+          >
+            Do it
+          </button>
+        </li>
+        {% endif %} {% endfor %}
+      </ul>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
